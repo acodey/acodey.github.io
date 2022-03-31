@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Acodey | Acodey</title><meta name="author" content="acodey"><meta name="copyright" content="acodey"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Semi-supervised Medical Image Segmentation through Dual-task Consistency（基于双任务一致性的半监督医">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Acodey">
+<meta property="og:url" content="https://acodey.github.io/2022/03/31/%E6%96%B0%E5%BB%BA%E6%96%87%E6%9C%AC%E6%96%87%E6%A1%A3/index.html">
+<meta property="og:site_name" content="Acodey">
+<meta property="og:description" content="Semi-supervised Medical Image Segmentation through Dual-task Consistency（基于双任务一致性的半监督医">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB086a45e71dce2885c98784001b1d0697?method=download&shareKey=53d190ab6364e8ed3008a3309d8bdb67">
+<meta property="article:published_time" content="2022-03-31T07:49:36.597Z">
+<meta property="article:modified_time" content="2022-03-28T09:23:41.333Z">
+<meta property="article:author" content="acodey">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/api/personal/file/WEB086a45e71dce2885c98784001b1d0697?method=download&shareKey=53d190ab6364e8ed3008a3309d8bdb67"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://acodey.github.io/2022/03/31/%E6%96%B0%E5%BB%BA%E6%96%87%E6%9C%AC%E6%96%87%E6%A1%A3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Acodey',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-28 17:23:41'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://w.wallhaven.cc/full/wq/wallhaven-wqe1rq.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">1</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://note.youdao.com/yws/api/personal/file/WEB086a45e71dce2885c98784001b1d0697?method=download&amp;shareKey=53d190ab6364e8ed3008a3309d8bdb67')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Acodey</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">无题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-03-31T07:49:36.597Z" title="发表于 2022-03-31 15:49:36">2022-03-31</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-28T09:23:41.333Z" title="更新于 2022-03-28 17:23:41">2022-03-28</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div id="article_content" class="article_content clearfix">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-163de54645.css">
+                <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <h1><a name="t0"></a><a id="Semisupervised_Medical_Image_Segmentation_through_Dualtask_Consistency_0"></a>Semi-supervised Medical Image Segmentation through Dual-task Consistency（基于双任务一致性的半监督医学<a href="https://so.csdn.net/so/search?q=%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&amp;spm=1001.2101.3001.7020" target="_blank" class="hl hl-1" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.7020&quot;,&quot;dest&quot;:&quot;https://so.csdn.net/so/search?q=%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&amp;spm=1001.2101.3001.7020&quot;}" data-tit="图像分割" data-pretit="图像分割">图像分割</a>）</h1> 
+<ul><li> <p>文献：Semi-supervised Medical Image Segmentation through Dual-task Consistency</p> </li><li> <p>主题：Semi-supervised、Dual-task Consistency</p> </li></ul> 
+<p></p>
+<div class="toc">
+ <h3><a name="t1"></a>目录</h3>
+ <ul><li><a href="#Semisupervised_Medical_Image_Segmentation_through_Dualtask_Consistency_0" target="_self">Semi-supervised Medical Image Segmentation through Dual-task Consistency（基于双任务一致性的半监督医学图像分割）</a></li><li><ul><li><a href="#Abstract_8" target="_self">Abstract</a></li><li><a href="#Introduction_19" target="_self">Introduction</a></li><li><a href="#Methods_45" target="_self">Methods</a></li><li><a href="#Experiments_and_Results_62" target="_self">Experiments and Results</a></li><li><a href="#Conclusion_85" target="_self">Conclusion</a></li></ul>
+ </li></ul>
+</div>
+<p></p> 
+<h2><a name="t2"></a><a id="Abstract_8"></a>Abstract</h2> 
+<p><strong>1. 想解决什么问题？question</strong><br> 现有的半监督学习（SSL）算法大多倾向于通过扰动网络和/或数据来规范模型训练。观察到多/双任务学习涉及到具有内在预测扰动的不同层次的信息，我们在这项工作中提出了一个问题：我们是否可以显式地构建任务层次的正则化，而不是隐式地构建网络和/或数据层次的扰动，然后对SSL进行正则化。</p> 
+<p><strong>2. 通过什么理论/模型来解决这个问题？method</strong><br> 新的双任务一致性半监督框架</p> 
+<p><strong>3. 作者给出的答案是什么？answer</strong><br> 使用一个双任务深度网络来联合预测一个像素级的分割图和一个几何感知的目标水平集表示。水平集表示通过可微任务转换层转换为近似的分割图。同时，我们在水平集导出的分割映射和直接预测的分割映射之间引入了一种双任务一致性正则化方法。</p> 
+<h2><a name="t3"></a><a id="Introduction_19"></a>Introduction</h2> 
+<p><strong>1. 为什么研究这个课题？</strong><br> 了解到所讨论的SSL工作的本质是通过损失函数中的正则化项来加强对未标记数据的预测的一致性。</p> 
+<p>我们观察到，在训练过程中，来自不同任务分支的不同层次的信息可以相互补充，而不同的焦点可以导致内在的预测扰动。</p> 
+<p>然后我们提出了在这项工作中最重要的问题：我们能显式地建立完全不同于以往的数据级正则化的任务级正则化吗？显然，答案是肯定的，前提是不同任务分支的输出应映射/转换到相同的预定义空间，在该空间中，我们能够显式地执行两个预测映射之间的一致性正则化。</p> 
+<p><strong>2. 目前这个课题的研究进行到了哪一阶段？(存在问题、待解决问题)</strong><br> 半监督医学图像分割：我们的方法利用了几何约束和双任务一致性</p> 
+<p>一致性正则化：之前的工作只考虑了输入在不同扰动和变换下的一致性，忽略了不同任务的一致性。另外，这些方法需要进行两次或两次以上的前向传递来计算一致性损失，这增加了计算量和运行时间。</p> 
+<p>我们的框架旨在通过最小化网络中两个任务之间的一致性来利用未标记数据，该框架考虑了不同任务之间的差异，只需进行一次推理。据我们所知，我们的工作是第一个建立半监督学习的任务一致性约束。</p> 
+<p><strong>3. 理论是基于哪些假设？</strong><br> 我们提出了一种新的用于半监督医学图像分割的双任务一致性模型。我们的主要思想是建立全局水平集函数回归任务和像素分类任务之间的一致性，以考虑几何约束并利用未标记的数据。</p> 
+<p>该框架由三部分组成：<br> （1）第一部分是双任务分割网络。具体来说，我们将分割问题建模为两种不同的表示（任务）：预测一个像素级分类图和获得一个全局水平集函数，其中零水平let是分割轮廓。我们使用一个双分支网络来预测这两种表示, 并且使用CNN来预测水平集函数是受（Ma et al.2020；Ma，He，and Yang 2020；Xue et al.2020）的启发，将全局信息和几何约束嵌入到网络中以获得更好的性能。<br> （2）该框架的第二部分是可微任务转换层。我们使用平滑的Heaviside层（Xue等人，2020）以可微的方式将水平集函数转换为分割概率图。<br> （3）第三部分是有监督和无监督学习的组合损失函数，我们设计了一个双任务一致性损失函数，以最小化预测的像素分割概率图和由水平函数转换的概率图之间的差异，它既能提高完全监督学习的性能，又能有效地利用未标记数据进行无监督学习。</p> 
+<h2><a name="t4"></a><a id="Methods_45"></a>Methods</h2> 
+<p><strong>1. 研究方法？原理？实验设计？</strong><br> <img src="https://img-blog.csdnimg.cn/2021040922312648.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NDg0MDAz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br> 概述了提出的用于半监督医学图像分割的双任务一致性框架。该网络由像素分类头（task1）和水平集函数回归头（task2）组成，水平集函数回归头采用广泛使用的编码器-解码器网络作为背景，即VNet（milleri、Navab和hmadi2016）。该模型通过最小化监督损失来优化，包括在标记数据上的监督损失L_dice、L_LSF，以及未标记数据和标记数据上的双任务一致性损失L_DTC。利用T函数将 ground truth label 映射转化为水平集表示，用于监督训练。T−1函数将水平集函数转换为概率图，以计算L_DTC。</p> 
+<p>在这一部分中，我们将介绍我们提出的基于双任务一致性的半监督医学图像框架。总体框架如图1所示，它由两个头部组成，一个是用于像素概率图的分类头部，另一个是用于目标水平集表示的回归头部。分割网络以三维医学图像为输入，同时预测水平集函数和像素概率图。由于分割结果可以用像素级标签图和与水平集函数相关的高水平等高线来表示，这两种预测对于分割任务来说应该是一致的。</p> 
+<p><strong>双任务一致性</strong><br> 我们在像素级分类任务（定义为task1）和级别集回归任务（定义为task2）之间实施任务级一致性。在现有的工作中，像素分类分割已经得到了广泛的研究，而水平集函数（Li et al.2005）是一项传统的任务，它可以捕获几何活动轮廓和距离信息。<br> <img src="https://img-blog.csdnimg.cn/20210410113157714.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NDg0MDAz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p> 
+<p><strong>2. 创新点</strong><br> 为了利用未标记数据，我们提出了一种新的双任务一致性策略，该策略通过最小化预测的像素标签和水平集函数之间的差异来学习未标记数据。为了建立一致性，利用变换层将水平集函数转化为像素级概率图，并用平滑的Heaviside函数实现。</p> 
+<p>我们的框架旨在通过最小化网络中两个任务之间的一致性来利用未标记数据，该框架考虑了不同任务之间的差异，只需进行一次推理。据我们所知，我们的工作是第一个建立半监督学习的任务一致性约束。</p> 
+<h2><a name="t5"></a><a id="Experiments_and_Results_62"></a>Experiments and Results</h2> 
+<p><strong>1. 数据来源</strong><br> MRI左心房分割和CT胰腺分割</p> 
+<p><strong>2. 实施细节和重要指标</strong><br> 我们使用nvidia1080ti gpu在PyTorch（Paszke等人，2019）中实现了我们的框架。<br> 在这项工作中，我们使用VNet（Milletari、Navab和Ahmadi 2016）作为所有实验的主干，并通过在<strong>原始VNet的末尾添加新的回归层来实现双任务VNet</strong>。<br> 该框架由SGD优化器训练6000次迭代，初始学习率（lr）为0.01，每2500次迭代衰减0.1。批量大小为4，由2个标记图像和2个未标记图像组成。<br> 在这项工作中，k的值被设置为1500。随机选取112×112×80（3D-MRI左心房）和96×96×96（3D-CT胰腺）作为网络输入。<br> 为了避免过度拟合，我们在训练阶段使用了标准的动态数据增强方法（Yu等人，2019年）。<br> 注意，在这项工作中，<strong>水平集函数是在训练阶段之前生成的</strong>，因为水平集函数是变换不变的，这大大加快了训练过程。在推理阶段，我们采用滑动窗口策略得到最终结果，左心房步幅为18×18×4，胰腺步幅为16×16×16。<br> 在推理时，我们使用像素分类分支的输出作为分割结果。<br> 为了公平比较，我们不使用任何后处理或集成方法。<br> 接下来（Yu et al.2019），我们使用四个指标来定量评估我们的方法，包括<strong>Dice、Jaccard、平均表面距离（ASD）和95%Hausdorff距离（95HD）</strong></p> 
+<p><img src="https://img-blog.csdnimg.cn/20210410221212829.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NDg0MDAz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br> 图4中，可以观察到，在不同的标记数据设置下，半监督方法的性能始终优于监督方法，这表明我们的方法有效地利用了未标记数据并带来了性能增益。研究还发现，随着标记图像的增多，全监督方法与半监督方法的性能差距逐渐缩小，这符合常识。在标记数据较少的情况下，我们的方法也能获得比完全监督方法更好的分割结果</p> 
+<p><img src="https://img-blog.csdnimg.cn/20210410114202665.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NDg0MDAz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br> 表一结果表明，水平集函数回归有助于医学图像分割。我们还可以观察到，双任务一致性在12个标记扫描和62个标记扫描上一致地提高了双任务VNet的性能。<br> <img src="https://img-blog.csdnimg.cn/20210409225653655.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NDg0MDAz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br> 我们的实验证明，我们的方法在精度、网络参数和计算成本方面都达到了最佳。</p> 
+<h2><a name="t6"></a><a id="Conclusion_85"></a>Conclusion</h2> 
+<p><strong>1. 论文的构思有哪几点？</strong><br> 本文提出了一种新颖简单的基于双任务一致性的半监督医学图像分割框架，它是一种基于任务级一致性的半监督分割框架。我们使用一个双任务网络，同时预测一个像素级分类图和一个水平集表示的分割，能够捕捉全局水平的形状和几何信息。为了建立一个半监督训练框架，我们通过一个任务转换层来实现分类图预测和LSF预测之间的双任务一致性。<br> 在MR扫描的左心房数据集和CT扫描的胰腺数据集两个三维医学图像数据集上，我们获得了最新的结果。优越的性能证明了该框架的有效性、鲁棒性和通用性。在这项工作中，我们专注于单类分割来简化表示。然而，我们的方法以一种简单的方式扩展到多类情况。</p> 
+<p><strong>2. 改进或缺陷？</strong><br> 此外，只要两个任务之间存在可微变换，我们提出的方法可以很容易地扩展到使用额外的任务，例如边缘提取（Zhen et al.2020）和关键点估计（Cheng et al.2020）。我们也希望能启发整个计算机视觉界，因为可以在许多方向上以半监督的方式构建任务一致性，例如双流视频识别（Simonyan and Zisserman 2014）、多任务图像重建（Zamir et al.2018、2020）等，以利用大量未标记的数据。在未来，我们将把这种方法推广到更多的计算机视觉应用中，以减少标记的工作量，并进一步研究融合策略，以整合所有不同任务的预测结果以获得更好的性能。</p>
+                </div><div><div></div></div>
+                <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-89f5acb30b.css" rel="stylesheet">
+                <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-49037e4d27.css" rel="stylesheet">
+        </div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">acodey</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://acodey.github.io/2022/03/31/%E6%96%B0%E5%BB%BA%E6%96%87%E6%9C%AC%E6%96%87%E6%A1%A3/">https://acodey.github.io/2022/03/31/%E6%96%B0%E5%BB%BA%E6%96%87%E6%9C%AC%E6%96%87%E6%A1%A3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://acodey.github.io" target="_blank">Acodey</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://note.youdao.com/yws/api/personal/file/WEB086a45e71dce2885c98784001b1d0697?method=download&amp;shareKey=53d190ab6364e8ed3008a3309d8bdb67" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/01/13/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><img class="next-cover" src="https://note.youdao.com/yws/api/personal/file/WEBb56fdbc31901ad4d1745c4b5c962a9f1?method=download&amp;shareKey=6ba642400d5da3777fcb8f7763738b44" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">机器学习</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://w.wallhaven.cc/full/wq/wallhaven-wqe1rq.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">acodey</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">1</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">真不吃香菜</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#content_views"><span class="toc-number">1.</span> <span class="toc-text">Semi-supervised Medical Image Segmentation through Dual-task Consistency（基于双任务一致性的半监督医学图像分割）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#content_views"><span class="toc-number">1.0.1.</span> <span class="toc-text">目录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#content_views"><span class="toc-number">1.1.</span> <span class="toc-text">Abstract</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#content_views"><span class="toc-number">1.2.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#content_views"><span class="toc-number">1.3.</span> <span class="toc-text">Methods</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#content_views"><span class="toc-number">1.4.</span> <span class="toc-text">Experiments and Results</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#content_views"><span class="toc-number">1.5.</span> <span class="toc-text">Conclusion</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/03/31/%E6%96%B0%E5%BB%BA%E6%96%87%E6%9C%AC%E6%96%87%E6%A1%A3/" title="无题"><img src="https://note.youdao.com/yws/api/personal/file/WEB086a45e71dce2885c98784001b1d0697?method=download&amp;shareKey=53d190ab6364e8ed3008a3309d8bdb67" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2022/03/31/%E6%96%B0%E5%BB%BA%E6%96%87%E6%9C%AC%E6%96%87%E6%A1%A3/" title="无题">无题</a><time datetime="2022-03-31T07:49:36.597Z" title="发表于 2022-03-31 15:49:36">2022-03-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/13/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" title="机器学习"><img src="https://note.youdao.com/yws/api/personal/file/WEBb56fdbc31901ad4d1745c4b5c962a9f1?method=download&amp;shareKey=6ba642400d5da3777fcb8f7763738b44" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="机器学习"/></a><div class="content"><a class="title" href="/2022/01/13/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" title="机器学习">机器学习</a><time datetime="2022-01-12T16:23:28.000Z" title="发表于 2022-01-13 00:23:28">2022-01-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/12/this-is-a-test/" title="this is a test"><img src="https://note.youdao.com/yws/api/personal/file/WEBb56fdbc31901ad4d1745c4b5c962a9f1?method=download&amp;shareKey=6ba642400d5da3777fcb8f7763738b44" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="this is a test"/></a><div class="content"><a class="title" href="/2022/01/12/this-is-a-test/" title="this is a test">this is a test</a><time datetime="2022-01-12T15:51:45.000Z" title="发表于 2022-01-12 23:51:45">2022-01-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/11/hello-world/" title="Hello World"><img src="https://note.youdao.com/yws/api/personal/file/WEBb9da70619c8163bb375fb1d6de66cea1?method=download&amp;shareKey=2732d7c491629102d61965cc72d9504d" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2022/01/11/hello-world/" title="Hello World">Hello World</a><time datetime="2022-01-11T11:11:12.581Z" title="发表于 2022-01-11 19:11:12">2022-01-11</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By acodey</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Cause that's what I said I would do from the start.</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
