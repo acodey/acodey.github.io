@@ -1,0 +1,207 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DTC笔记 | Acodey</title><meta name="author" content="acodey"><meta name="copyright" content="acodey"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="半监督学习之DTC论文摘要代码链接        想解决什么问题？现有的半监督学习（SSL）算法大多倾向于通过扰动网络和&#x2F;或数据来规范模型训练。观察到多&#x2F;双任务学习涉及到具有内在预测扰动的不同层次的信息，我们在这项工作中提出了一个问题：我们是否可以显式地构建任务层次的正则化，而不是隐式地构建网络和&#x2F;或数据层次的扰动，然后对SSL进行正则化。 理论是基于哪些假设？我们提出了一种新的用于半监督医学图像">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DTC笔记">
+<meta property="og:url" content="https://acodey.github.io/2022/04/17/DTC%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Acodey">
+<meta property="og:description" content="半监督学习之DTC论文摘要代码链接        想解决什么问题？现有的半监督学习（SSL）算法大多倾向于通过扰动网络和&#x2F;或数据来规范模型训练。观察到多&#x2F;双任务学习涉及到具有内在预测扰动的不同层次的信息，我们在这项工作中提出了一个问题：我们是否可以显式地构建任务层次的正则化，而不是隐式地构建网络和&#x2F;或数据层次的扰动，然后对SSL进行正则化。 理论是基于哪些假设？我们提出了一种新的用于半监督医学图像">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://w.wallhaven.cc/full/m9/wallhaven-m96qr1.png">
+<meta property="article:published_time" content="2022-04-17T03:42:53.000Z">
+<meta property="article:modified_time" content="2022-04-17T03:44:00.631Z">
+<meta property="article:author" content="acodey">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://w.wallhaven.cc/full/m9/wallhaven-m96qr1.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://acodey.github.io/2022/04/17/DTC%E7%AC%94%E8%AE%B0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'DTC笔记',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-04-17 11:44:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/Myimg/wallhaven-2897xm.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">1</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://w.wallhaven.cc/full/m9/wallhaven-m96qr1.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Acodey</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">DTC笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-04-17T03:42:53.000Z" title="发表于 2022-04-17 11:42:53">2022-04-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-04-17T03:44:00.631Z" title="更新于 2022-04-17 11:44:00">2022-04-17</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="DTC笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="半监督学习之DTC"><a href="#半监督学习之DTC" class="headerlink" title="半监督学习之DTC"></a>半监督学习之DTC</h1><h2 id="论文摘要"><a href="#论文摘要" class="headerlink" title="论文摘要"></a>论文摘要</h2><h3 id="代码链接"><a href="#代码链接" class="headerlink" title="代码链接"></a><a target="_blank" rel="noopener" href="https://github.com/HiLab-git/DTC">代码链接</a></h3><h3 id="想解决什么问题？"><a href="#想解决什么问题？" class="headerlink" title="        想解决什么问题？"></a><img src="https://docimg3.docs.qq.com/image/m0XBEdgTj0TA2zB3QwjIbQ.jpeg?w=1280&h=472.39012642986154" alt="img">        <strong>想解决什么问题？</strong></h3><p>现有的半监督学习（SSL）算法大多倾向于通过扰动网络和/或数据来规范模型训练。观察到多/双任务学习涉及到具有内在预测扰动的不同层次的信息，我们在这项工作中提出了一个问题：<strong>我们是否可以显式地构建任务层次的正则化，而不是隐式地构建网络和/或数据层次的扰动，然后对SSL进行正则化。</strong></p>
+<h3 id="理论是基于哪些假设？"><a href="#理论是基于哪些假设？" class="headerlink" title="理论是基于哪些假设？"></a><strong>理论是基于哪些假设？</strong></h3><p><strong>我们提出了一种新的用于半监督医学图像分割的双任务一致性模型</strong>。我们的主要思想是建立全局水平集函数回归任务和像素分类任务之间的一致性，以考虑几何约束并利用未标记的数据。</p>
+<h3 id="作者给出的答案是什么？"><a href="#作者给出的答案是什么？" class="headerlink" title="作者给出的答案是什么？"></a><strong>作者给出的答案是什么？</strong></h3><p>使用一个双任务深度网络来联合预测一个像素级的分割图和一个几何感知的目标水平集表示。水平集表</p>
+<p>示通过可微任务转换层转换为近似的分割图。同时，我们在水平集导出的分割映射和直接预测的分割映</p>
+<p>射之间引入了一种双任务一致性正则化方法。</p>
+<h3 id="通过什么理论-模型来解决这个问题？"><a href="#通过什么理论-模型来解决这个问题？" class="headerlink" title="通过什么理论/模型来解决这个问题？"></a><strong>通过什么理论/模型来解决这个问题？</strong></h3><p><strong>新的双任务一致性半监督框架</strong></p>
+<h4 id="该框架由三部分组成："><a href="#该框架由三部分组成：" class="headerlink" title="该框架由三部分组成："></a><strong>该框架由三部分组成：</strong></h4><p>（1）第一部分是双任务分割网络。具体来说，我们将分割问题建模为两种不同的表示（任务）：预测一个像素级分类图和获得一个全局水平集函数，其中零水平let是分割轮廓。我们使用一个双分支网络来预测这两种表示, 并且使用CNN来预测水平集函数是受（Ma et al.2020；Ma，He，and Yang 2020；Xue et al.2020）的启发，将全局信息和几何约束嵌入到网络中以获得更好的性能。</p>
+<p>（2）该框架的第二部分是可微任务转换层。我们使用平滑的Heaviside层（Xue等人，2020）以可微的方式将水平集函数转换为分割概率图。</p>
+<p>（3）第三部分是有监督和无监督学习的组合损失函数，我们设计了一个双任务一致性损失函数，以最小化预测的像素分割概率图和由水平函数转换的概率图之间的差异，它既能提高完全监督学习的性能，又能有效地利用未标记数据进行无监督学习。</p>
+<h3 id="评价指标"><a href="#评价指标" class="headerlink" title="评价指标"></a><strong>评价指标</strong></h3><h4 id="消融研究"><a href="#消融研究" class="headerlink" title="消融研究"></a>消融研究</h4><p>​                <img src="https://docimg9.docs.qq.com/image/WQOfDAitUPCncKuH0t9vcw.jpeg?w=1280&h=279.97485857950977" alt="img">  </p>
+<h4 id="与其他的框架的对比"><a href="#与其他的框架的对比" class="headerlink" title="与其他的框架的对比                 "></a><strong>与其他的框架的对比</strong>                 <img src="https://docimg8.docs.qq.com/image/QDHHavfBKiMpYFgmssNWFA.jpeg?w=1280&h=298.1420765027322" alt="img"></h4><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>我们提出的方法可以很容易地扩展到使用额外的任务，例如边缘提取（Zhen et al.2020）和关键点估计（Cheng et al.2020）。我们也希望能启发整个计算机视觉界，因为可以在许多方向上以半监督的方式构建任务一致性，例如双流视频识别（Simonyan and Zisserman 2014）、多任务图像重建（Zamir et al.2018、2020）等，以利用大量未标记的数据。在未来，我们将把这种方法推广到更多的计算机视觉应用中，以减少标记的工作量，并进一步研究融合策略，以整合所有不同任务的预测结果以获得更好的性能。</p>
+<h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="批量归一化"><a href="#批量归一化" class="headerlink" title="批量归一化"></a>批量归一化</h3><p>（BN：Batch Normalization：解决在训练过程中，中间层数据分布发生改变的问题，以防止梯度消失或爆炸、加快训练速度）</p>
+<h3 id="交叉验证"><a href="#交叉验证" class="headerlink" title="交叉验证"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/00ed9abc5555"><strong>交叉验证</strong></a></h3><h4 id="K折交叉验证"><a href="#K折交叉验证" class="headerlink" title="K折交叉验证"></a><strong>K折交叉验证</strong></h4><p>对训练集做K次分割（K折交叉验证），然后用同一组超参数对应训练K个模型，并在同一组测试集上测试，取最终的平均准确率作为该组超参数的最终测试结果；</p>
+<p> 然后选下一组超参数重复上述过程，这样我们就获得了不同超参数各自的平均准确率；</p>
+<p> 选择平均准确率最高的超参数作为最终超参数；</p>
+<p> 将最终超参数在“原训练集+验证集”上整体做训练得到最终结果；</p>
+<p> 最后将该“最终超参数+最终训练参数”在测试集上做测试（不再训练），结束整个过程。</p>
+<p>​                 <img src="https://docimg7.docs.qq.com/image/FpMt_azEdSBjVp_QmCA7fw.jpeg?w=800&h=632" alt="img">        </p>
+<h4 id="留一法"><a href="#留一法" class="headerlink" title="留一法"></a><strong>留一法</strong></h4><p> 当<strong>K=1</strong>时，即所有训练样本都作为训练样本，这种情况相当于没有交叉验证，跟只有训练集和测试集的情况一样；</p>
+<p> 当<strong>K=N</strong>时（N是训练集的样本总数，不包括测试集），即每次只留1个样本作为验证集，N-1个作为训练集，这种方法称为留一法</p>
+<p> LOOCV的优点：首先它不受训训练集和验证集划分（这里指将大训练集划分为训练集和验证集）的影响，因为每一个样本都单独的做过验证集，同时，其用了N-1个样本训练模型，几乎用到了所有样本信息。</p>
+<p> LOOCV优点：计算量过大。</p>
+<p> 当<strong>1&lt;K&lt;N</strong>时，K选取实际上是偏差（bias）和方差（variance）的一个折中（trade off）。K越大，每次投入的训练样本越多，模型的Bias越小。但K越大，也意味着每次选取的训练样本的相关性越大（或者重叠性越大）（考虑最极端的例子，当K=N，也就是在LOOCV里，每次的训练样本几乎是一样的），而这种大相关性会导致最终的test error具有更大的Variance；K越小，偏差越大，方差越小。</p>
+<h3 id="消融研究-1"><a href="#消融研究-1" class="headerlink" title="消融研究"></a><strong>消融研究</strong></h3><p>消融研究对于深度学习研究至关重要 </p>
+<p>理解系统中的因果关系是产生可靠知识的最直接方式（任何研究的目标）。消融是一种非常省力的方式来研究因果关系。</p>
+<p>如果您采用任何复杂的深度学习实验设置，您可能会删除一些模块（或用随机的模块替换一些训练有素的功能）而不会降低性能。消除研究过程中的噪音：进行消融研究。</p>
+<p>类似于控制变量</p>
+<h2 id="损失函数的部分代码"><a href="#损失函数的部分代码" class="headerlink" title="损失函数的部分代码"></a><strong>损失函数的部分代码</strong></h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 返回水平集预测和像素集预测</span></span><br><span class="line">outputs_tanh, outputs = model(volume_batch)</span><br><span class="line"><span class="comment"># 对像素集归一化预处理</span></span><br><span class="line">outputs_soft = torch.sigmoid(outputs)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># calculate the loss</span></span><br><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    <span class="comment"># 用T函数将gt图片变换为水平集 其实是计算带符号的距离贴图(SDM)</span></span><br><span class="line">    gt_dis = compute_sdf(label_batch[:].cpu().numpy(), outputs[:labeled_bs, <span class="number">0</span>, ...].shape)</span><br><span class="line">    gt_dis = torch.from_numpy(gt_dis).<span class="built_in">float</span>().cuda()</span><br><span class="line"><span class="comment"># 计算监督任务的水平集损失 使用MSELoss（绝对值平方）</span></span><br><span class="line">loss_sdf = mse_loss(outputs_tanh[:labeled_bs, <span class="number">0</span>, ...], gt_dis)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用BCEWithLoginsLoss计算loss_seg 用对数似然函数计算像素集损失</span></span><br><span class="line">loss_seg = ce_loss(outputs[:labeled_bs, <span class="number">0</span>, ...], label_batch[:labeled_bs].<span class="built_in">float</span>())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># main 计算监督任务中的像素损失 使用dice loss</span></span><br><span class="line">loss_seg_dice = losses.dice_loss(outputs_soft[:labeled_bs, <span class="number">0</span>, :, :, :], label_batch[:labeled_bs] == <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 激活处理，将水平集转为像素集 k=1500</span></span><br><span class="line">dis_to_mask = torch.sigmoid(-<span class="number">1500</span> * outputs_tanh)</span><br><span class="line"><span class="comment"># 返回所有元素的标量</span></span><br><span class="line">consistency_loss = torch.mean((dis_to_mask - outputs_soft) ** <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算监督任务的损失和</span></span><br><span class="line">supervised_loss = loss_seg_dice + args.beta * loss_sdf</span><br><span class="line">consistency_weight = get_current_consistency_weight(iter_num // <span class="number">150</span>)</span><br><span class="line"><span class="comment"># 监督学习损失和半监督学习损失</span></span><br><span class="line">loss = supervised_loss + consistency_weight * consistency_loss</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="疑问解答"><a href="#疑问解答" class="headerlink" title="疑问解答"></a>疑问解答</h2><ul>
+<li><p>如何通过Vnet网络实现两种不同的任务类（水平集和像素集）？</p>
+<p>回归用于处理线性问题，像素划分属于分类问题 </p>
+<p>在vnet网络末尾添加如下代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">self.out_conv2 = nn.Conv3d(n_filters, n_classes, <span class="number">1</span>, padding=<span class="number">0</span>)</span><br><span class="line">self.tanh = nn.Tanh()</span><br></pre></td></tr></table></figure>
+
+<p>在encoder末尾添加如下代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">out_tanh = self.tanh(out)     <span class="comment">#  out = self.out_conv(x9)</span></span><br><span class="line">out_seg = self.out_conv2(x9)</span><br></pre></td></tr></table></figure></li>
+<li><p>T函数是如何实现的？</p>
+<p>使用util.py下的  compute_sdf() 方法</p>
+</li>
+<li><p>训练集的数据是如何分配的？</p>
+<p>la_heart.py 下的TwoStreamBatchSampler()方法</p>
+<p>细节看代码，大致操作就是给有标签的数据和无标签的数据各分配一个索引，然后通过索引进行迭代，有标签数据迭代一次，无标签数据迭代多次。</p>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">acodey</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://acodey.github.io/2022/04/17/DTC%E7%AC%94%E8%AE%B0/">https://acodey.github.io/2022/04/17/DTC%E7%AC%94%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://acodey.github.io" target="_blank">Acodey</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://w.wallhaven.cc/full/m9/wallhaven-m96qr1.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/04/01/%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90UNet%E5%92%8CUnet/"><img class="next-cover" src="https://w.wallhaven.cc/full/m9/wallhaven-m96qr1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">深度解析UNet和Unet++</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/Myimg/wallhaven-2897xm.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">acodey</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">1</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">真不吃香菜</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E4%B9%8BDTC"><span class="toc-number">1.</span> <span class="toc-text">半监督学习之DTC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BA%E6%96%87%E6%91%98%E8%A6%81"><span class="toc-number">1.1.</span> <span class="toc-text">论文摘要</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E9%93%BE%E6%8E%A5"><span class="toc-number">1.1.1.</span> <span class="toc-text">代码链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%83%B3%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-number">1.1.2.</span> <span class="toc-text">        想解决什么问题？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%90%86%E8%AE%BA%E6%98%AF%E5%9F%BA%E4%BA%8E%E5%93%AA%E4%BA%9B%E5%81%87%E8%AE%BE%EF%BC%9F"><span class="toc-number">1.1.3.</span> <span class="toc-text">理论是基于哪些假设？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E8%80%85%E7%BB%99%E5%87%BA%E7%9A%84%E7%AD%94%E6%A1%88%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">1.1.4.</span> <span class="toc-text">作者给出的答案是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E4%BB%80%E4%B9%88%E7%90%86%E8%AE%BA-%E6%A8%A1%E5%9E%8B%E6%9D%A5%E8%A7%A3%E5%86%B3%E8%BF%99%E4%B8%AA%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-number">1.1.5.</span> <span class="toc-text">通过什么理论&#x2F;模型来解决这个问题？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%A5%E6%A1%86%E6%9E%B6%E7%94%B1%E4%B8%89%E9%83%A8%E5%88%86%E7%BB%84%E6%88%90%EF%BC%9A"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">该框架由三部分组成：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87"><span class="toc-number">1.1.6.</span> <span class="toc-text">评价指标</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E8%9E%8D%E7%A0%94%E7%A9%B6"><span class="toc-number">1.1.6.1.</span> <span class="toc-text">消融研究</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8E%E5%85%B6%E4%BB%96%E7%9A%84%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-number">1.1.6.2.</span> <span class="toc-text">与其他的框架的对比                 </span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.1.7.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%B9%E9%87%8F%E5%BD%92%E4%B8%80%E5%8C%96"><span class="toc-number">1.2.1.</span> <span class="toc-text">批量归一化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81"><span class="toc-number">1.2.2.</span> <span class="toc-text">交叉验证</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#K%E6%8A%98%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">K折交叉验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%95%99%E4%B8%80%E6%B3%95"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">留一法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E8%9E%8D%E7%A0%94%E7%A9%B6-1"><span class="toc-number">1.2.3.</span> <span class="toc-text">消融研究</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E7%9A%84%E9%83%A8%E5%88%86%E4%BB%A3%E7%A0%81"><span class="toc-number">1.3.</span> <span class="toc-text">损失函数的部分代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%96%91%E9%97%AE%E8%A7%A3%E7%AD%94"><span class="toc-number">1.4.</span> <span class="toc-text">疑问解答</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/04/17/DTC%E7%AC%94%E8%AE%B0/" title="DTC笔记"><img src="https://w.wallhaven.cc/full/m9/wallhaven-m96qr1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="DTC笔记"/></a><div class="content"><a class="title" href="/2022/04/17/DTC%E7%AC%94%E8%AE%B0/" title="DTC笔记">DTC笔记</a><time datetime="2022-04-17T03:42:53.000Z" title="发表于 2022-04-17 11:42:53">2022-04-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/04/01/%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90UNet%E5%92%8CUnet/" title="深度解析UNet和Unet++"><img src="https://w.wallhaven.cc/full/m9/wallhaven-m96qr1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="深度解析UNet和Unet++"/></a><div class="content"><a class="title" href="/2022/04/01/%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90UNet%E5%92%8CUnet/" title="深度解析UNet和Unet++">深度解析UNet和Unet++</a><time datetime="2022-04-01T08:10:33.000Z" title="发表于 2022-04-01 16:10:33">2022-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/31/CNN%E8%AF%A6%E8%A7%A3/" title="CNN详解"><img src="https://w.wallhaven.cc/full/m9/wallhaven-m96qr1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CNN详解"/></a><div class="content"><a class="title" href="/2022/03/31/CNN%E8%AF%A6%E8%A7%A3/" title="CNN详解">CNN详解</a><time datetime="2022-03-31T08:59:57.000Z" title="发表于 2022-03-31 16:59:57">2022-03-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/31/%E5%85%A8%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9CFCN/" title="全卷积网络FCN"><img src="https://w.wallhaven.cc/full/l3/wallhaven-l3o9rq.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="全卷积网络FCN"/></a><div class="content"><a class="title" href="/2022/03/31/%E5%85%A8%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9CFCN/" title="全卷积网络FCN">全卷积网络FCN</a><time datetime="2022-03-31T08:42:57.000Z" title="发表于 2022-03-31 16:42:57">2022-03-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/31/%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2-DTC/" title="图像分割-DTC"><img src="https://w.wallhaven.cc/full/6o/wallhaven-6o1j7l.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图像分割-DTC"/></a><div class="content"><a class="title" href="/2022/03/31/%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2-DTC/" title="图像分割-DTC">图像分割-DTC</a><time datetime="2022-03-31T08:14:45.000Z" title="发表于 2022-03-31 16:14:45">2022-03-31</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By acodey</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Cause that's what I said I would do from the start.</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
