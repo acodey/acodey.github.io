@@ -1,0 +1,184 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CPS解读 | Acodey</title><meta name="author" content="acodey"><meta name="copyright" content="acodey"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Semi-Supervised Semantic Segmentation with Cross Pseudo Supervision（CVPR2021）Xiaokang Chen1， Yuhui Yuan， Gang Zeng ，Jingdong Wang 北大及微软亚洲研究院 基于交叉伪监督的半监督语义分割(CPS) 本文和My net的方法相似，只解释网络及优化函数部分 损失函数 训练目标包">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CPS解读">
+<meta property="og:url" content="https://acodey.github.io/2022/07/20/CPS%E8%A7%A3%E8%AF%BB/index.html">
+<meta property="og:site_name" content="Acodey">
+<meta property="og:description" content="Semi-Supervised Semantic Segmentation with Cross Pseudo Supervision（CVPR2021）Xiaokang Chen1， Yuhui Yuan， Gang Zeng ，Jingdong Wang 北大及微软亚洲研究院 基于交叉伪监督的半监督语义分割(CPS) 本文和My net的方法相似，只解释网络及优化函数部分 损失函数 训练目标包">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://w.wallhaven.cc/full/g7/wallhaven-g7kzv7.png">
+<meta property="article:published_time" content="2022-07-20T02:28:11.000Z">
+<meta property="article:modified_time" content="2022-07-20T02:28:39.740Z">
+<meta property="article:author" content="acodey">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://w.wallhaven.cc/full/g7/wallhaven-g7kzv7.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://acodey.github.io/2022/07/20/CPS%E8%A7%A3%E8%AF%BB/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CPS解读',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-07-20 10:28:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/Myimg/wallhaven-2897xm.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">1</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://w.wallhaven.cc/full/g7/wallhaven-g7kzv7.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Acodey</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CPS解读</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-07-20T02:28:11.000Z" title="发表于 2022-07-20 10:28:11">2022-07-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-07-20T02:28:39.740Z" title="更新于 2022-07-20 10:28:39">2022-07-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CPS解读"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Semi-Supervised-Semantic-Segmentation-with-Cross-Pseudo-Supervision（CVPR2021）"><a href="#Semi-Supervised-Semantic-Segmentation-with-Cross-Pseudo-Supervision（CVPR2021）" class="headerlink" title="Semi-Supervised Semantic Segmentation with Cross Pseudo Supervision（CVPR2021）"></a><strong>Semi-Supervised Semantic Segmentation with Cross Pseudo Supervision</strong>（CVPR2021）</h1><p>Xiaokang Chen1， Yuhui Yuan， Gang Zeng ，Jingdong Wang 北大及微软亚洲研究院</p>
+<p>基于交叉伪监督的半监督语义分割(CPS)</p>
+<p>本文和My net的方法相似，只解释网络及优化函数部分</p>
+<h2 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h2><p><img src="../../../Users/86183/AppData/Roaming/Typora/typora-user-images/image-20220720095319489.png" alt="image-20220720095319489"></p>
+<p>训练目标包含两个损失：监督损失Ls和交叉伪监督损失Lcps。监督损失Ls是利用两个并行分割网络上标记图像上的标准像素级交叉熵损失来制定的：<br>$$<br>\begin{array}{r}<br>\mathcal{L}<em>{s}=\frac{1}{\left|\mathcal{D}^{l}\right|} \sum</em>{\mathbf{X} \in \mathcal{D}^{l}} \frac{1}{W \times H} \sum_{i=0}^{W \times H}\left(\ell_{c e}\left(\mathbf{p}<em>{1 i}, \mathbf{y}</em>{1 i}^{<em>}\right)\right. \<br>\left.+\ell_{c e}\left(\mathbf{p}<em>{2 i}, \mathbf{y}</em>{2 i}^{</em>}\right)\right)<br>\end{array}<br>$$</p>
+<p>其中，ce为交叉熵损失函数，$\mathbf{y}^*_{ 1i},\mathbf{ y}^*_{2i}$为基真值。W和H表示输入图像的宽度和高度</p>
+<p>交叉伪监督损失是双向的：一个是从f ( θ1 )到f ( θ2 )。我们使用一个网络f ( θ1 )输出的像素级一热标号映射Y1来监督另一个网络f ( θ2 )的像素级置信度映射P2，另一个是从f ( θ2 )到f ( θ1 )。未标记数据上的交叉伪监督损失写为<br>$$<br>\begin{array}{r}<br>\mathcal{L}<em>{c p s}^{u}=\frac{1}{\left|\mathcal{D}^{u}\right|} \sum</em>{\mathbf{X} \in \mathcal{D}^{u}} \frac{1}{W \times H} \sum_{i=0}^{W \times H}\left(\ell_{c e}\left(\mathbf{p}<em>{1 i}, \mathbf{y}</em>{2 i}\right)\right. \<br>\left.+\ell_{c e}\left(\mathbf{p}<em>{2 i}, \mathbf{y}</em>{1 i}\right)\right)<br>\end{array}<br>$$<br>我们还以同样的方式定义了标记数据上的交叉伪监督损失Ll cps。整个交叉伪监督损失是有标记数据和无标记数据的损失之和：$\mathcal{L}<em>{cps}=\mathcal{L}</em>{cps}^l+\mathcal{L}_{c p s}^u$。</p>
+<p>整个培养目标写成：</p>
+<p>$\mathcal{L}=\mathcal{L}<em>{s}+λ\mathcal{L}</em>{c p s}$</p>
+<p>其中λ是权衡的权重。</p>
+<p><strong>与CutMix增强功能相结合</strong>。CutMix增强方案被应用于半监督分割的平均教师框架。我们还在我们的方法中应用了CutMix增强。我们将CutMixed图像输入到两个网络f ( θ1 )和f ( θ2 )中。我们使用类似于的方法从两个网络中生成伪分割图：将两个源图像(用于生成CutMix图像)输入到每个分割网络中，并将两个伪分割图混合作为对另一个分割网络的监督</p>
+<p><strong>讨论我们的方法与以下几个相关工作之间的关系。</strong>交叉概率一致性。两个扰动网络的一个可选一致性是交叉概率一致性：概率向量（来自像素级的通信图）应该是相似的(如图1(b)所示)。损失函数可写为：<br>$$<br>\begin{aligned}<br>\mathcal{L}<em>{c p c}=\frac{1}{|\mathcal{D}|} \sum</em>{\mathbf{X} \in \mathcal{D}} \frac{1}{W \times H} \sum_{i=0}^{W \times H}\left(\ell_{2}\left(\mathbf{p}<em>{1 i}, \mathbf{p}</em>{2 i}\right)\right.<br>&amp;\left.+\ell_{2}\left(\mathbf{p}<em>{2 i}, \mathbf{p}</em>{1 i}\right)\right)<br>\end{aligned}<br>$$<br>这里使用了一个例子，使用损失$\ell_{2}  (\mathbf{p}<em>{1i}，\mathbf{p}</em>{2i})=||\mathbf{p}<em>{1i}−\mathbf{p}</em>{2i}||^{2}_2$来施加一致性。其他损失，如KL-sedaid，以及中间特征的一致性也可以使用。我们用D来表示标记集Dl和未标记集Du的并集</p>
+<p>与特征/概率一致性类似，交叉伪监督一致性也期望两个扰动分割网络之间的一致性。特别地，我们的方法在某种意义上通过对带有伪标签的未标记数据进行探索来增加训练数据。表4的实证结果表明，交叉伪监管优于交叉概率一致性。</p>
+<h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><p>表4：对帕斯卡VOC2012和城市景观的不同损失组合的消融研究。结果是在1/8数据分区协议下得到的，并且与其他分区协议是一致的。Ls表示在标签集合上的监督损失。Llcps(Lucps)表示已标记（未标记）集上的交叉伪监督损失。Llcpc(Lucpc)表示已标记（未标记）集合上的交叉概率一致性损失。对标记和未标记数据进行交叉伪监督损失的总体性能最好。</p>
+<p><img src="../../../Users/86183/AppData/Roaming/Typora/typora-user-images/image-20220720094730938.png" alt="image-20220720094730938"></p>
+<p><strong>B. Network Perturbation</strong>我们的交叉伪监督方法(CPS)包括两个扰动分割网络f（θ1）和f（θ2），它们具有相同的架构，初始化的方式不同。在本文中，我们指出了来自这两个网络的伪分割结果是被扰动的。我们在训练过程中使用它们之间的重叠比来证明扰动。图7给出了标记集合、未标记集合和整个集合上的重叠比率如图7所示。我们可以看到，（1）在训练早期的重叠比较小，而在训练后期的（2）增加。早期的小重叠比有助于避免分割网络向错误方向收敛的情况。后期重叠率较大，说明两种分割网络的伪分割结果更为准确</p>
+<p><img src="../../../Users/86183/AppData/Roaming/Typora/typora-user-images/image-20220720100809800.png" alt="image-20220720100809800"></p>
+<p>图7：在1/8分区下，pascalVOC2012上两个网络的预测重叠。我们使用ResNet-DeepLabv3+50作为分割网络。我们只计算对象区域的重叠比，而忽略属于“背景”类的像素。</p>
+<h3 id="写作帮助："><a href="#写作帮助：" class="headerlink" title="写作帮助："></a>写作帮助：</h3><p>1.内容方面：</p>
+<p>方法也优于使用一个复杂的方案来计算伪分割映射的伪seg。我们认为，原因是我们的方法使用网络扰动和交叉伪监督，而伪seg使用具有输入扰动的单一网络。</p>
+<p>采用了两个相同的和独立初始化的分割网络与相同的输入图像，并使用每个网络的伪分割图来监督其他网络。另一方面，我们的方法在两个分割网络上都进行反向传播，而伪seg只对强增广图像进行反向传播。</p>
+<p>在我们的方法中，我们只使用了一个网络来生成可进行评估的结果。</p>
+<p>解释扰动的不确定性，相关内容在My net中有待完善，<strong>目前的思路有：不确定性的解释及公式，类似CPS中Network Perturbation部分。实验观测两个网络输出的重叠程度(overlap)，这个应该也不难，可以设置两次实验，设置有无加入额外的无标记数据。</strong></p>
+<p>2.实验方面，设置更多不同的标记数据集分布及启发中的消融研究,<strong>在无额外的无标记数据上进行一次消融研究。</strong></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">acodey</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://acodey.github.io/2022/07/20/CPS%E8%A7%A3%E8%AF%BB/">https://acodey.github.io/2022/07/20/CPS%E8%A7%A3%E8%AF%BB/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://acodey.github.io" target="_blank">Acodey</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://w.wallhaven.cc/full/g7/wallhaven-g7kzv7.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/04/17/DTC%E7%AC%94%E8%AE%B0/"><img class="next-cover" src="https://w.wallhaven.cc/full/j3/wallhaven-j3j9r5.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">DTC笔记</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/Myimg/wallhaven-2897xm.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">acodey</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">1</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">真不吃香菜</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Semi-Supervised-Semantic-Segmentation-with-Cross-Pseudo-Supervision%EF%BC%88CVPR2021%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">Semi-Supervised Semantic Segmentation with Cross Pseudo Supervision（CVPR2021）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.</span> <span class="toc-text">损失函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">1.1.1.</span> <span class="toc-text">实验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E4%BD%9C%E5%B8%AE%E5%8A%A9%EF%BC%9A"><span class="toc-number">1.1.2.</span> <span class="toc-text">写作帮助：</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/07/20/CPS%E8%A7%A3%E8%AF%BB/" title="CPS解读"><img src="https://w.wallhaven.cc/full/g7/wallhaven-g7kzv7.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CPS解读"/></a><div class="content"><a class="title" href="/2022/07/20/CPS%E8%A7%A3%E8%AF%BB/" title="CPS解读">CPS解读</a><time datetime="2022-07-20T02:28:11.000Z" title="发表于 2022-07-20 10:28:11">2022-07-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/04/17/DTC%E7%AC%94%E8%AE%B0/" title="DTC笔记"><img src="https://w.wallhaven.cc/full/j3/wallhaven-j3j9r5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="DTC笔记"/></a><div class="content"><a class="title" href="/2022/04/17/DTC%E7%AC%94%E8%AE%B0/" title="DTC笔记">DTC笔记</a><time datetime="2022-04-17T03:42:53.000Z" title="发表于 2022-04-17 11:42:53">2022-04-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/04/01/%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90UNet%E5%92%8CUnet/" title="深度解析UNet和Unet++"><img src="https://w.wallhaven.cc/full/6o/wallhaven-6o1j7l.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="深度解析UNet和Unet++"/></a><div class="content"><a class="title" href="/2022/04/01/%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90UNet%E5%92%8CUnet/" title="深度解析UNet和Unet++">深度解析UNet和Unet++</a><time datetime="2022-04-01T08:10:33.000Z" title="发表于 2022-04-01 16:10:33">2022-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/31/CNN%E8%AF%A6%E8%A7%A3/" title="CNN详解"><img src="https://w.wallhaven.cc/full/g7/wallhaven-g7kzv7.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CNN详解"/></a><div class="content"><a class="title" href="/2022/03/31/CNN%E8%AF%A6%E8%A7%A3/" title="CNN详解">CNN详解</a><time datetime="2022-03-31T08:59:57.000Z" title="发表于 2022-03-31 16:59:57">2022-03-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/31/%E5%85%A8%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9CFCN/" title="全卷积网络FCN"><img src="https://w.wallhaven.cc/full/j3/wallhaven-j3j9r5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="全卷积网络FCN"/></a><div class="content"><a class="title" href="/2022/03/31/%E5%85%A8%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9CFCN/" title="全卷积网络FCN">全卷积网络FCN</a><time datetime="2022-03-31T08:42:57.000Z" title="发表于 2022-03-31 16:42:57">2022-03-31</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By acodey</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Cause that's what I said I would do from the start.</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
